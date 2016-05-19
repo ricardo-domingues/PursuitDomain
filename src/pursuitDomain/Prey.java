@@ -64,5 +64,4 @@ public class Prey extends Agent{
             }
         }    
     }
-//teste
 }
