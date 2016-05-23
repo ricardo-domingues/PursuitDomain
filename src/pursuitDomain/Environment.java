@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JComboBox;
 
 public class Environment {
 
     public Random random;
     private final Cell[][] grid;
     private final List<Predator> predators;
+    private List<PredatorGreedy> predatorsGreedy;
     private final Prey prey;
     private final int maxIterations;
 
@@ -40,8 +42,10 @@ public class Environment {
         prey = new Prey(null, probPreyRests);
 
         predators = new LinkedList<>();
+        predatorsGreedy = new LinkedList<>();
         for(int i = 0; i < numPredators; i++){
             predators.add(new Predator(null, predatorsNumInputs, predatorsNumHiddenLayers, predatorsNumOutputs));
+            predatorsGreedy.add(new PredatorGreedy(null, Color.YELLOW));
         }
         
         this.random = new Random();
@@ -66,9 +70,12 @@ public class Environment {
         for (Predator predator : predators) {
             predator.setCell(null);
         }
-
+        for(PredatorGreedy predatorGreedy : predatorsGreedy){
+            predatorGreedy.setCell(null);
+        }
+        
         prey.setCell(getCell(random.nextInt(grid.length), random.nextInt(grid.length)));
-
+        
         for (Predator predator : predators) {
             do {
                 Cell cell = getCell(
@@ -77,7 +84,17 @@ public class Environment {
                     predator.setCell(cell);
                 }
             } while (predator.getCell() == null);
-        }        
+        }
+        
+        for (PredatorGreedy predatorGreedy : predatorsGreedy) {
+            do {
+                Cell cell = getCell(
+                        random.nextInt(grid.length), random.nextInt(grid.length));
+                if (!cell.hasAgent()) {
+                    predatorGreedy.setCell(cell);
+                }
+            } while (predatorGreedy.getCell() == null);
+        }
     }
         
     //MAKES A SIMULATION OF THE ENVIRONMENT. THE AGENTS START IN THE POSITIONS
@@ -85,12 +102,27 @@ public class Environment {
     public void simulate() {
         
     }
+    public int distanceBetweenTwoCells(Cell cell,Cell another){
+        return Math.abs(cell.getColumn()-another.getColumn() + cell.getLine()-another.getLine());
+    }
+    public int predatorDistancePrey(PredatorGreedy predator){
+        Cell predatorCell = predator.getCell();
+        Cell preyCell = prey.getCell();
+        int distance = 0;
+        
+        distance = Math.abs(distanceBetweenTwoCells(predatorCell, preyCell));
+        
+        return distance;
+    }
 
     //COMPUTES THE SUM OF THE (SMALLEST) DISTANCES OF ALL THE PREDATORS TO THE PREY.
     //IT TAKES INTO ACCOUNT THAT THE ENVIRONMENT IS TOROIDAL.
     public int computePredatorsPreyDistanceSum() {
-        //TODO
-        return 0;
+        int distance = 0;
+        for(int i=0;i<predatorsGreedy.size();i++){
+            distance += predatorDistancePrey(predatorsGreedy.get(i));
+        }
+        return distance;
     }
     
     public int getSize() {
@@ -165,5 +197,9 @@ public class Environment {
         for (EnvironmentListener listener : listeners) {
             listener.environmentUpdated();
         }
-    }    
+    }
+    
+    public void getMinimumDistanceToPrey(PredatorGreedy predator,Prey prey){
+        
+    }
 }

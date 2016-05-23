@@ -54,7 +54,7 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
         environment.addEnvironmentListener(this);
 
         buildImage(environment);
-
+        
         final PanelSimulation simulationPanel = this;
 
         SwingWorker worker = new SwingWorker<Void, Void>() {

@@ -7,6 +7,7 @@ public class Prey extends Agent{
 
     final private double restProbability;
     private Random random;
+    private Random random2;
     
     public Prey(Cell cell, double restProbability){
         super(cell, Color.RED);
@@ -20,26 +21,29 @@ public class Prey extends Agent{
     }   
     
     private Action decide(Environment environment){
-        double rand = random.nextDouble()+restProbability;
+        double rand = random.nextDouble();
         Action action = null;
+        if(rand <= restProbability){
+            return action;
+        }else{
+            double random = random2.nextDouble();
+            
+            do{
+                if (rand >= 0 && rand <0.25 && !environment.getNorthCell(cell).hasAgent()) {
+                    action = Action.NORTH;
+                }
+                if (rand >= 0.25 && rand < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
+                    action = Action.SOUTH;
+                }
+                if (rand >= 0.50 && rand < 0.75 && !environment.getEastCell(cell).hasAgent()) {
+                    action = Action.EAST;
+                }
+                if (rand >= 0.75 && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
+                    action = Action.WEST;
+                }
+            }while(action == null);
+        }
         
-        do{
-            if (rand >= 0 && rand <0.25 && !environment.getNorthCell(cell).hasAgent()) {
-                action = Action.NORTH;
-            }
-            if (rand >= 0.25 && rand < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
-                action = Action.SOUTH;
-            }
-            if (rand >= 0.50 && rand < 0.75 && !environment.getEastCell(cell).hasAgent()) {
-                action = Action.EAST;
-            }
-            if (rand >= 0.75 && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
-                action = Action.WEST;
-            }
-            if (rand >= 1 && rand < 1+restProbability) {
-                return null;
-            }
-        }while(action == null);
 
         return action;
     }
@@ -64,5 +68,5 @@ public class Prey extends Agent{
             }
         }    
     }
-//teste
+
 }
