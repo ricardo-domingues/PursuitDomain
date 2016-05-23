@@ -12,9 +12,10 @@ public class Environment {
     public Random random;
     private final Cell[][] grid;
     private final List<Predator> predators;
-    private List<PredatorGreedy> predatorsGreedy;
     private final Prey prey;
     private final int maxIterations;
+    private PredatorRandom predatorRandom;
+    private int numPredators;
 
     //MORE ATTRIBUTES?
     
@@ -28,6 +29,7 @@ public class Environment {
             int predatorsNumOutputs) {
 
         this.maxIterations = maxIterations;
+        this.numPredators = numPredators;
 
         grid = new Cell[size][size];
         for (int i = 0; i < grid.length; i++) {
@@ -42,10 +44,8 @@ public class Environment {
         prey = new Prey(null, probPreyRests);
 
         predators = new LinkedList<>();
-        predatorsGreedy = new LinkedList<>();
         for(int i = 0; i < numPredators; i++){
             predators.add(new Predator(null, predatorsNumInputs, predatorsNumHiddenLayers, predatorsNumOutputs));
-            predatorsGreedy.add(new PredatorGreedy(null, Color.YELLOW));
         }
         
         this.random = new Random();
@@ -70,10 +70,7 @@ public class Environment {
         for (Predator predator : predators) {
             predator.setCell(null);
         }
-        for(PredatorGreedy predatorGreedy : predatorsGreedy){
-            predatorGreedy.setCell(null);
-        }
-        
+
         prey.setCell(getCell(random.nextInt(grid.length), random.nextInt(grid.length)));
         
         for (Predator predator : predators) {
@@ -85,23 +82,35 @@ public class Environment {
                 }
             } while (predator.getCell() == null);
         }
-        
-        for (PredatorGreedy predatorGreedy : predatorsGreedy) {
-            do {
-                Cell cell = getCell(
-                        random.nextInt(grid.length), random.nextInt(grid.length));
-                if (!cell.hasAgent()) {
-                    predatorGreedy.setCell(cell);
-                }
-            } while (predatorGreedy.getCell() == null);
-        }
+
     }
         
     //MAKES A SIMULATION OF THE ENVIRONMENT. THE AGENTS START IN THE POSITIONS
     //WHERE THEY WHERE PLACED IN METHOD initializeAgentsPositions.
-    public void simulate() {
-        
+    public void simulate(JComboBox jComboBox) {
+        initializeAgentsPositions(maxIterations);
+
+        switch (jComboBox.getSelectedIndex()){
+            case 0: //PredatorsRandom
+                ArrayList<PredatorRandom> predatorsRandom = new ArrayList<PredatorRandom>();
+
+                for(int i=0; i<numPredators; i++){
+                    predatorsRandom.add(new PredatorRandom(null, Color.YELLOW));
+                }
+
+                break;
+            case 1: //PredatorsGreedy
+
+                break;
+            case 3: //
+
+                break;
+            default:
+                break;
+        }
     }
+
+
     public int distanceBetweenTwoCells(Cell cell,Cell another){
         return Math.abs(cell.getColumn()-another.getColumn() + cell.getLine()-another.getLine());
     }
@@ -119,9 +128,9 @@ public class Environment {
     //IT TAKES INTO ACCOUNT THAT THE ENVIRONMENT IS TOROIDAL.
     public int computePredatorsPreyDistanceSum() {
         int distance = 0;
-        for(int i=0;i<predatorsGreedy.size();i++){
+        /*for(int i=0;i<predatorsGreedy.size();i++){
             distance += predatorDistancePrey(predatorsGreedy.get(i));
-        }
+        }*/
         return distance;
     }
     

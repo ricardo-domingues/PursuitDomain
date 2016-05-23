@@ -13,13 +13,13 @@ import java.util.Random;
  *
  * @author ASUS
  */
-public class PredatorRandom extends Agent {
+public class PredatorRandom extends Predator {
 
     private Random random;
 
-    public PredatorRandom(Cell cell, Color color) {
-        super(cell, color);
-        random = new Random();
+    public PredatorRandom(Cell cell, int inputLayerSize, int hiddenLayerSize, int outputLayerSize, Random random) {
+        super(cell, inputLayerSize, hiddenLayerSize, outputLayerSize);
+        this.random = random;
     }
 
     @Override

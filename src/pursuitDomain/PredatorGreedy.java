@@ -12,13 +12,13 @@ import java.util.Random;
  *
  * @author ASUS
  */
-public class PredatorGreedy extends Agent {
+public class PredatorGreedy extends Predator {
 
     private Random random;
 
-    public PredatorGreedy(Cell cell, Color color) {
-        super(cell, color);
-        random = new Random();
+    public PredatorGreedy(Cell cell, int inputLayerSize, int hiddenLayerSize, int outputLayerSize, Random random) {
+        super(cell, inputLayerSize, hiddenLayerSize, outputLayerSize);
+        this.random = random;
     }
 
     @Override
