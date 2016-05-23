@@ -14,6 +14,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import pursuitDomain.Environment;
 import pursuitDomain.PredatorIndividual;
 import pursuitDomain.PursuitDomainProblem;
 
@@ -36,7 +38,7 @@ public class PanelParameters extends PanelAtributesValue {
     JComboBox jComboBoxRecombinationMethods = new JComboBox(recombinationMethods);
     JTextField jTextFieldProbRecombination = new JTextField(PROB_RECOMBINATION, TEXT_FIELD_LENGHT);
     JTextField jTextFieldProbMutation = new JTextField(PROB_MUTATION, TEXT_FIELD_LENGHT);
-    JComboBox jComboBoxSelectionController = new JComboBox(new String[]{"Random Controller","Ad-hoc Controller","Single Neural Network","Multiple Neural Network"});
+    static JComboBox jComboBoxSelectionController = new JComboBox(new String[]{"Random Controller","Ad-hoc Controller","Single Neural Network","Multiple Neural Network"});
     //MORE PARAMETERS?
     
     public PanelParameters() {
@@ -115,6 +117,10 @@ public class PanelParameters extends PanelAtributesValue {
         //COMPLETE?
         return new MutationMUTATION_NAME<>(mutationProbability/*COMPLETE?*/);
     }
+
+    public static JComboBox getControllerSelectionMethod() {
+        return jComboBoxSelectionController;
+    }
 }
 
 class JComboBoxSelectionMethods_ActionAdapter implements ActionListener {
@@ -141,8 +147,12 @@ class jComboBoxSelectionController_ActionAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        Environment.SELECTEDMETHOD = PanelParameters.getControllerSelectionMethod().getSelectedIndex();
+
         adaptee.actionPerformedSelectionMethods(e);
     }
+
 }
 
 class IntegerTextField_KeyAdapter implements KeyListener {

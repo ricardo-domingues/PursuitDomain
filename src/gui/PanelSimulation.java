@@ -64,10 +64,11 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
                 int environmentSimulations = mainFrame.getProblem().getNumEvironmentSimulations();
 
                 for (int i = 0; i < environmentSimulations; i++) {
-                    environment.setPredatorsWeights(weights);
                     environment.initializeAgentsPositions(i);
                     environmentUpdated();
+                    //environment.setPredatorsWeights(weights);
                     environment.simulate();
+
                 }
                 return null;
             }
@@ -116,7 +117,7 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
         g.drawImage(image, GRID_TO_PANEL_GAP, GRID_TO_PANEL_GAP, null);
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(200);
         } catch (InterruptedException ignore) {
         }
     }

@@ -191,7 +191,7 @@ public class MainFrame extends JFrame implements GAListener {
                     panelParameters.getMutationMethod(),
                     random);
 
-            System.out.println(ga);
+            System.out.println(ga+"Selection Controller Method: "+panelParameters.getControllerSelectionMethod().getSelectedItem().toString());
 
             ga.addGAListener(this);
 
@@ -201,6 +201,7 @@ public class MainFrame extends JFrame implements GAListener {
                 @Override
                 public Void doInBackground() {
                     try {
+
                         bestInRun = ga.run(problem);
                         
                     } catch (Exception e) {

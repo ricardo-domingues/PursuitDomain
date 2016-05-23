@@ -1,6 +1,7 @@
 package pursuitDomain;
 
 import ga.Problem;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -9,7 +10,6 @@ import java.util.List;
 public class PursuitDomainProblem implements Problem<PredatorIndividual> {
 
     public static int NUM_PREDATOR_OUTPUTS = 2;
-    
     final private int environmentSize;
     final private int maxIterations;
     final private double probPreyRest;

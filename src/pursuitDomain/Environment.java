@@ -9,13 +9,14 @@ import javax.swing.JComboBox;
 
 public class Environment {
 
+    public static int SELECTEDMETHOD = 0;
     public Random random;
     private final Cell[][] grid;
-    private final List<Predator> predators;
+    private final List<Agent> agents;
     private final Prey prey;
     private final int maxIterations;
-    private PredatorRandom predatorRandom;
     private int numPredators;
+    private JComboBox jComboBox;
 
     //MORE ATTRIBUTES?
     
@@ -42,22 +43,40 @@ public class Environment {
         //THEY ARE PLACED IN AN INITIAL CELL IN THE BEGINNING OF EACH SIMULATION
         //(SEE METHOD initializeAgentsPositions).
         prey = new Prey(null, probPreyRests);
+        agents = new LinkedList<>();
 
-        predators = new LinkedList<>();
-        for(int i = 0; i < numPredators; i++){
-            predators.add(new Predator(null, predatorsNumInputs, predatorsNumHiddenLayers, predatorsNumOutputs));
+        switch (SELECTEDMETHOD){
+            case 0: //PredatorsRandom
+                for(int i=0; i<numPredators; i++){
+                    agents.add(new PredatorRandom(null, Color.BLUE));
+                }
+
+                break;
+            case 1: //PredatorsGreedy
+                for(int i=0; i<numPredators; i++){
+                    agents.add(new PredatorGreedy(null, Color.GREEN));
+                }
+
+                break;
+            case 3: //
+
+                break;
+            default:
+                break;
         }
+
         
         this.random = new Random();
     }
 
+    /*
     //THIS METHOD SHOULD BE CALLED IN THE METHOD computeFitness BEFORE A
     //ALL THE SIMULATIONS START.
-    public void setPredatorsWeights(double[] weights) {
-        for (Predator predator : predators) {
-            predator.setWeights(weights);
+    public void setPredatorsNeuralNetworkWeights(double[] weights) {
+        for (PredatorNeuralNetwork predator : (PredatorNeuralNetwork) agents) {
+            predatorNeuralNetwork.setWeights(weights);
         }
-    }
+    }*/
 
     //THIS METHOD SHOULD BE CALLED RIGHT BEFORE EACH CALL TO METHOD simulate (SEE BELOW).
     //THAT IS, IT MUST BE CALLED RIGHT BEFORE EACH SIMULATION (.
@@ -67,47 +86,36 @@ public class Environment {
         random.setSeed(seed);
         //reset cells
         prey.setCell(null);
-        for (Predator predator : predators) {
-            predator.setCell(null);
+        for (Agent agent : agents) {
+            agent.setCell(null);
         }
 
         prey.setCell(getCell(random.nextInt(grid.length), random.nextInt(grid.length)));
         
-        for (Predator predator : predators) {
+        for (Agent agent : agents) {
             do {
                 Cell cell = getCell(
                         random.nextInt(grid.length), random.nextInt(grid.length));
                 if (!cell.hasAgent()) {
-                    predator.setCell(cell);
+                    agent.setCell(cell);
                 }
-            } while (predator.getCell() == null);
+            } while (agent.getCell() == null);
         }
+
+
 
     }
         
     //MAKES A SIMULATION OF THE ENVIRONMENT. THE AGENTS START IN THE POSITIONS
     //WHERE THEY WHERE PLACED IN METHOD initializeAgentsPositions.
-    public void simulate(JComboBox jComboBox) {
-        initializeAgentsPositions(maxIterations);
-
-        switch (jComboBox.getSelectedIndex()){
-            case 0: //PredatorsRandom
-                ArrayList<PredatorRandom> predatorsRandom = new ArrayList<PredatorRandom>();
-
-                for(int i=0; i<numPredators; i++){
-                    predatorsRandom.add(new PredatorRandom(null, Color.YELLOW));
-                }
-
-                break;
-            case 1: //PredatorsGreedy
-
-                break;
-            case 3: //
-
-                break;
-            default:
-                break;
+    public void simulate() {
+        for(int i = 0; i<200; i++){
+            for(Agent agent: agents){
+                agent.act(this);
+                fireUpdatedEnvironment();
+            }
         }
+
     }
 
 
@@ -142,8 +150,8 @@ public class Environment {
         return prey;
     }
     
-    public List getPredators() {
-        return predators;
+    public List getAgents() {
+        return agents;
     }    
 
     public final Cell getCell(int line, int column) {

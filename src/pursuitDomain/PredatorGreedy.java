@@ -5,24 +5,25 @@
  */
 package pursuitDomain;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Random;
 
 /**
  *
  * @author ASUS
  */
-public class PredatorGreedy extends Predator {
+public class PredatorGreedy extends Agent {
 
     private Random random;
 
-    public PredatorGreedy(Cell cell, int inputLayerSize, int hiddenLayerSize, int outputLayerSize, Random random) {
-        super(cell, inputLayerSize, hiddenLayerSize, outputLayerSize);
-        this.random = random;
+    public PredatorGreedy(Cell cell, Color color) {
+        super(cell, color);
+        this.random = new Random();
     }
 
     @Override
     public void act(Environment environment) {
+
         execute(decide(environment), environment);
     }
 
