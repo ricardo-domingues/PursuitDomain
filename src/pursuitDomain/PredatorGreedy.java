@@ -28,18 +28,62 @@ public class PredatorGreedy extends Agent {
 
     private Action decide(Environment environment) {
         Cell preyCell = environment.getPrey().getCell();
-        
-        int distanceWest = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine()-1, this.getCell().getColumn()), preyCell);
-        int distanceEast = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine()+1, this.getCell().getColumn()), preyCell);
-        int distanceNorth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn()-1), preyCell);
-        int distanceSouth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn()+1), preyCell);
-        
-        if(distanceNorth < distanceSouth && distanceNorth < distanceEast && distanceNorth < distanceWest){
-            return Action.NORTH;
+        Action action = null;
+
+        int distanceWest = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() - 1), preyCell);
+        int distanceEast = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() + 1), preyCell);
+        int distanceNorth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() - 1, this.getCell().getColumn()), preyCell);
+        int distanceSouth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() + 1, this.getCell().getColumn()), preyCell);
+
+        do{
+            if (!environment.getNorthCell(this.cell).hasAgent() && distanceNorth < distanceWest && distanceNorth < distanceSouth && distanceNorth < distanceEast) {
+                action = Action.NORTH;
+            }
+            if (!environment.getEastCell(this.cell).hasAgent() && distanceEast < distanceNorth && distanceEast < distanceSouth && distanceEast < distanceWest) {
+                action = Action.EAST;
+            }
+            if (!environment.getSouthCell(this.cell).hasAgent() && distanceSouth < distanceEast && distanceSouth < distanceNorth && distanceSouth < distanceWest) {
+                action = Action.SOUTH;
+            }
+            if (!environment.getWestCell(this.cell).hasAgent() && distanceWest < distanceSouth && distanceWest < distanceEast && distanceWest < distanceNorth) {
+                action = Action.WEST;
+            }
+
+            double rand = random.nextDouble();
+
+            if (distanceNorth == distanceWest) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.NORTH;
+                } else if(!environment.getWestCell(this.cell).hasAgent()){
+                        action = Action.WEST;
+                }
+            }
+            if (distanceNorth == distanceEast) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.NORTH;
+                } else if(!environment.getEastCell(this.cell).hasAgent()){
+                    action = Action.EAST;
+                }
+            }
+            if (distanceSouth == distanceWest) {
+                if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.SOUTH;
+                } else if(!environment.getWestCell(this.cell).hasAgent()){
+                    action = Action.WEST;
+                }
+            }
+            if (distanceSouth == distanceEast) {
+                if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.SOUTH;
+                } else if(!environment.getEastCell(this.cell).hasAgent()){
+                    action = Action.EAST;
+                }
+            }
         }
-        
-        
-        return null;
+        while(action == null);
+
+
+        return action;
     }
 
     private void execute(Action action, Environment environment) {

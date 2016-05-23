@@ -25,25 +25,25 @@ public class Prey extends Agent{
         Action action = null;
         if(rand <= restProbability){
             return action;
-        }else{
+        }
+        else{
             double random = random2.nextDouble();
             
             do{
-                if (rand >= 0 && rand <0.25 && !environment.getNorthCell(cell).hasAgent()) {
+                if (random >= 0 && random <0.25 && !environment.getNorthCell(cell).hasAgent()) {
                     action = Action.NORTH;
                 }
-                if (rand >= 0.25 && rand < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
+                if (random >= 0.25 && random < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
                     action = Action.SOUTH;
                 }
-                if (rand >= 0.50 && rand < 0.75 && !environment.getEastCell(cell).hasAgent()) {
+                if (random >= 0.50 && random < 0.75 && !environment.getEastCell(cell).hasAgent()) {
                     action = Action.EAST;
                 }
-                if (rand >= 0.75 && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
+                if (random >= 0.75 && random < 1 && !environment.getEastCell(cell).hasAgent()) {
                     action = Action.WEST;
                 }
             }while(action == null);
         }
-        
 
         return action;
     }
