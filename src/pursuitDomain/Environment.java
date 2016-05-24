@@ -19,7 +19,6 @@ public class Environment {
     private JComboBox jComboBox;
 
     //MORE ATTRIBUTES?
-    
     public Environment(
             int size,
             int maxIterations,
@@ -45,15 +44,15 @@ public class Environment {
         prey = new Prey(null, probPreyRests);
         agents = new LinkedList<>();
 
-        switch (SELECTEDMETHOD){
+        switch (SELECTEDMETHOD) {
             case 0: //PredatorsRandom
-                for(int i=0; i<numPredators; i++){
+                for (int i = 0; i < numPredators; i++) {
                     agents.add(new PredatorRandom(null, Color.BLUE));
                 }
 
                 break;
             case 1: //PredatorsGreedy
-                for(int i=0; i<numPredators; i++){
+                for (int i = 0; i < 1; i++) {
                     agents.add(new PredatorGreedy(null, Color.GREEN));
                 }
 
@@ -65,7 +64,6 @@ public class Environment {
                 break;
         }
 
-        
         this.random = new Random();
     }
 
@@ -77,7 +75,6 @@ public class Environment {
             predatorNeuralNetwork.setWeights(weights);
         }
     }*/
-
     //THIS METHOD SHOULD BE CALLED RIGHT BEFORE EACH CALL TO METHOD simulate (SEE BELOW).
     //THAT IS, IT MUST BE CALLED RIGHT BEFORE EACH SIMULATION (.
     public void initializeAgentsPositions(int seed) {
@@ -91,7 +88,7 @@ public class Environment {
         }
 
         prey.setCell(getCell(random.nextInt(grid.length), random.nextInt(grid.length)));
-        
+
         for (Agent agent : agents) {
             do {
                 Cell cell = getCell(
@@ -102,35 +99,50 @@ public class Environment {
             } while (agent.getCell() == null);
         }
 
-
-
     }
-        
+
     //MAKES A SIMULATION OF THE ENVIRONMENT. THE AGENTS START IN THE POSITIONS
     //WHERE THEY WHERE PLACED IN METHOD initializeAgentsPositions.
     public void simulate() {
-        for(int i = 0; i<200; i++){
-            for(Agent agent: agents){
-                if(distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1){
+        for (int i = 0; i < 200; i++) {
+            for (Agent agent : agents) {
+                if (distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1) {
+                    if(!checkMoveConditions(agent)){
+                        continue;
+                    }
                     agent.act(this);
                     fireUpdatedEnvironment();
-                }         
+                }
             }
         }
 
     }
-
-
-    public int distanceBetweenTwoCells(Cell cell,Cell another){
-        return  Math.abs(cell.getLine() - another.getLine()) + Math.abs(cell.getColumn()- another.getColumn());
+    
+    private boolean checkMoveConditions(Agent agent){
+        boolean canMove = true;
+        if(agent.getCell().getLine() == 9 && agent.getCell().getColumn() == prey.getCell().getColumn() && prey.getCell().getLine() == 0){
+            canMove = false;
+        }else if(agent.getCell().getLine() == 0 && agent.getCell().getColumn() == prey.getCell().getColumn() && prey.getCell().getLine() == 9){
+            canMove = false;
+        }else if(agent.getCell().getLine() == prey.getCell().getLine() && agent.getCell().getColumn() == 9 && prey.getCell().getColumn()== 0){
+            canMove = false;
+        }else if(agent.getCell().getLine() == prey.getCell().getLine() && agent.getCell().getColumn() == 0 && prey.getCell().getColumn() == 9){
+            canMove = false;
+        }
+        return canMove;
     }
-    public int predatorDistancePrey(PredatorGreedy predator){
+
+    public int distanceBetweenTwoCells(Cell cell, Cell another) {
+        return Math.abs(cell.getLine() - another.getLine()) + Math.abs(cell.getColumn() - another.getColumn());
+    }
+
+    public int predatorDistancePrey(PredatorGreedy predator) {
         Cell predatorCell = predator.getCell();
         Cell preyCell = prey.getCell();
         int distance = 0;
-        
+
         distance = Math.abs(distanceBetweenTwoCells(predatorCell, preyCell));
-        
+
         return distance;
     }
 
@@ -143,18 +155,18 @@ public class Environment {
         }*/
         return distance;
     }
-    
+
     public int getSize() {
         return grid.length;
     }
-    
+
     public Prey getPrey() {
         return prey;
     }
-    
+
     public List getAgents() {
         return agents;
-    }    
+    }
 
     public final Cell getCell(int line, int column) {
         return grid[line][column];
@@ -193,12 +205,12 @@ public class Environment {
 
     public Cell getWestCell(Cell cell) {
         return cell.getColumn() > 0 ? grid[cell.getLine()][cell.getColumn() - 1] : grid[cell.getLine()][grid.length - 1];
-    }    
-    
+    }
+
     public Cell getEastCell(Cell cell) {
         return cell.getColumn() < grid.length - 1 ? grid[cell.getLine()][cell.getColumn() + 1] : grid[cell.getLine()][0];
     }
-    
+
     //listeners
     private final ArrayList<EnvironmentListener> listeners = new ArrayList<>();
 
@@ -211,14 +223,14 @@ public class Environment {
     public synchronized void removeEnvironmentListener(EnvironmentListener l) {
         listeners.remove(l);
     }
-    
+
     public void fireUpdatedEnvironment() {
         for (EnvironmentListener listener : listeners) {
             listener.environmentUpdated();
         }
     }
-    
-    public void getMinimumDistanceToPrey(PredatorGreedy predator,Prey prey){
-        
+
+    public void getMinimumDistanceToPrey(PredatorGreedy predator, Prey prey) {
+
     }
 }
