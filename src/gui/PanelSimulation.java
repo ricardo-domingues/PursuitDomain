@@ -117,7 +117,7 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
         g.drawImage(image, GRID_TO_PANEL_GAP, GRID_TO_PANEL_GAP, null);
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(100);
         } catch (InterruptedException ignore) {
         }
     }

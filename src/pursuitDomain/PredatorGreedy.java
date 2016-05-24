@@ -24,8 +24,11 @@ public class PredatorGreedy extends Agent {
     @Override
     public void act(Environment environment) {
 
-        if(environment.predatorDistancePrey(this) != 1){
+        if(environment.predatorDistancePrey(this, environment.getSize()) > 1){
             execute(decide(environment), environment);
+        }
+        if(environment.predatorDistancePrey(this, environment.getSize()) == 1){
+            System.out.println("ACHOU");
         }
     }
 
@@ -33,10 +36,10 @@ public class PredatorGreedy extends Agent {
         Cell preyCell = environment.getPrey().getCell();
         Action action = null;
 
-        int distanceWest = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() - 1), preyCell);
-        int distanceEast = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() + 1), preyCell);
-        int distanceNorth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() - 1, this.getCell().getColumn()), preyCell);
-        int distanceSouth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() + 1, this.getCell().getColumn()), preyCell);
+        int distanceWest = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() - 1), preyCell, environment.getSize());
+        int distanceEast = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() + 1), preyCell, environment.getSize());
+        int distanceNorth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() - 1, this.getCell().getColumn()), preyCell, environment.getSize());
+        int distanceSouth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() + 1, this.getCell().getColumn()), preyCell, environment.getSize());
 
         do{
             if (!environment.getNorthCell(this.cell).hasAgent() && distanceNorth < distanceWest && distanceNorth < distanceSouth && distanceNorth < distanceEast) {
@@ -51,7 +54,6 @@ public class PredatorGreedy extends Agent {
             if (!environment.getWestCell(this.cell).hasAgent() && distanceWest < distanceSouth && distanceWest < distanceEast && distanceWest < distanceNorth) {
                 action = Action.WEST;
             }
-            
 
             double rand = random.nextDouble();
 
@@ -69,6 +71,13 @@ public class PredatorGreedy extends Agent {
                     action = Action.EAST;
                 }
             }
+            if (distanceNorth == distanceSouth) {
+                if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.NORTH;
+                } else if(!environment.getEastCell(this.cell).hasAgent()){
+                    action = Action.SOUTH;
+                }
+            }
             if (distanceSouth == distanceWest) {
                 if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
                     action = Action.SOUTH;
@@ -79,6 +88,13 @@ public class PredatorGreedy extends Agent {
             if (distanceSouth == distanceEast) {
                 if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
                     action = Action.SOUTH;
+                } else if(!environment.getEastCell(this.cell).hasAgent()){
+                    action = Action.EAST;
+                }
+            }
+            if (distanceWest == distanceEast) {
+                if (!environment.getSouthCell(this.cell).hasAgent() && rand < 0.5) {
+                    action = Action.WEST;
                 } else if(!environment.getEastCell(this.cell).hasAgent()){
                     action = Action.EAST;
                 }
