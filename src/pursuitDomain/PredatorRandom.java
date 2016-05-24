@@ -27,10 +27,12 @@ public class PredatorRandom extends Agent {
     }
 
     private Action decide(Environment environment) {
-        int rand = random.nextInt(4);
-        Action action = null;
         
+        Action action = null;
+        System.out.println(environment.distanceBetweenTwoCells(this.getCell(), environment.getPrey().getCell()));
+
         do{
+            int rand = random.nextInt(4);
             if (rand == 0 && !environment.getNorthCell(cell).hasAgent()) {
                 action = Action.NORTH;
             }

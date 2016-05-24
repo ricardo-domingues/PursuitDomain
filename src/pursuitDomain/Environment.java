@@ -111,8 +111,10 @@ public class Environment {
     public void simulate() {
         for(int i = 0; i<200; i++){
             for(Agent agent: agents){
-                agent.act(this);
-                fireUpdatedEnvironment();
+                if(distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1){
+                    agent.act(this);
+                    fireUpdatedEnvironment();
+                }         
             }
         }
 
@@ -120,15 +122,14 @@ public class Environment {
 
 
     public int distanceBetweenTwoCells(Cell cell,Cell another){
-
-        System.out.println("DISTANCE!!!! :"+Math.abs(cell.getColumn()-another.getColumn() + cell.getLine()-another.getLine()));
-
-        return Math.abs(cell.getColumn()-another.getColumn() + cell.getLine()-another.getLine());
+        return  Math.abs(cell.getLine() - another.getLine()) + Math.abs(cell.getColumn()- another.getColumn());
     }
     public int predatorDistancePrey(PredatorGreedy predator){
         Cell predatorCell = predator.getCell();
         Cell preyCell = prey.getCell();
-        int distance = distanceBetweenTwoCells(predatorCell, preyCell);
+        int distance = 0;
+        
+        distance = Math.abs(distanceBetweenTwoCells(predatorCell, preyCell));
         
         return distance;
     }
