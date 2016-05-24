@@ -24,7 +24,9 @@ public class PredatorGreedy extends Agent {
     @Override
     public void act(Environment environment) {
 
-        execute(decide(environment), environment);
+        if(environment.predatorDistancePrey(this) != 1){
+            execute(decide(environment), environment);
+        }
     }
 
     private Action decide(Environment environment) {
@@ -49,6 +51,7 @@ public class PredatorGreedy extends Agent {
             if (!environment.getWestCell(this.cell).hasAgent() && distanceWest < distanceSouth && distanceWest < distanceEast && distanceWest < distanceNorth) {
                 action = Action.WEST;
             }
+            
 
             double rand = random.nextDouble();
 
