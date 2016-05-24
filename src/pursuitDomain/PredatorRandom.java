@@ -29,7 +29,7 @@ public class PredatorRandom extends Agent {
     private Action decide(Environment environment) {
         
         Action action = null;
-        System.out.println(environment.distanceBetweenTwoCells(this.getCell(), environment.getPrey().getCell(), environment.getSize()));
+        System.out.println(environment.distanceBetweenTwoCells(this.getCell(), environment.getPrey().getCell()));
 
         do{
             int rand = random.nextInt(4);

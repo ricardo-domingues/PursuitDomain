@@ -24,10 +24,10 @@ public class PredatorGreedy extends Agent {
     @Override
     public void act(Environment environment) {
 
-        if(environment.predatorDistancePrey(this, environment.getSize()) > 1){
+        if(environment.predatorGreedyDistancePrey(this) > 1){
             execute(decide(environment), environment);
         }
-        if(environment.predatorDistancePrey(this, environment.getSize()) == 1){
+        if(environment.predatorGreedyDistancePrey(this) == 1){
             System.out.println("ACHOU");
         }
     }
@@ -36,10 +36,10 @@ public class PredatorGreedy extends Agent {
         Cell preyCell = environment.getPrey().getCell();
         Action action = null;
 
-        int distanceWest = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() - 1), preyCell, environment.getSize());
-        int distanceEast = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine(), this.getCell().getColumn() + 1), preyCell, environment.getSize());
-        int distanceNorth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() - 1, this.getCell().getColumn()), preyCell, environment.getSize());
-        int distanceSouth = environment.distanceBetweenTwoCells(new Cell(this.getCell().getLine() + 1, this.getCell().getColumn()), preyCell, environment.getSize());
+        int distanceWest = environment.distanceBetweenTwoCellsGreedy(new Cell(this.getCell().getLine(), this.getCell().getColumn() - 1), preyCell);
+        int distanceEast = environment.distanceBetweenTwoCellsGreedy(new Cell(this.getCell().getLine(), this.getCell().getColumn() + 1), preyCell);
+        int distanceNorth = environment.distanceBetweenTwoCellsGreedy(new Cell(this.getCell().getLine() - 1, this.getCell().getColumn()), preyCell);
+        int distanceSouth = environment.distanceBetweenTwoCellsGreedy(new Cell(this.getCell().getLine() + 1, this.getCell().getColumn()), preyCell);
 
         do{
             if (!environment.getNorthCell(this.cell).hasAgent() && distanceNorth < distanceWest && distanceNorth < distanceSouth && distanceNorth < distanceEast) {
@@ -101,7 +101,6 @@ public class PredatorGreedy extends Agent {
             }
         }
         while(action == null);
-
 
         return action;
     }

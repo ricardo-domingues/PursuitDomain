@@ -52,7 +52,7 @@ public class Environment {
 
                 break;
             case 1: //PredatorsGreedy
-                for (int i = 0; i < numPredators; i++) {
+                for (int i = 0; i < 1; i++) {
                     agents.add(new PredatorGreedy(null, Color.GREEN));
                 }
 
@@ -106,7 +106,7 @@ public class Environment {
     public void simulate() {
         for (int i = 0; i < 200; i++) {
             for (Agent agent : agents) {
-                if (distanceBetweenTwoCells(agent.getCell(), prey.getCell(), getSize()) != 1) {
+                if (distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1) {
                     if(!checkMoveConditions(agent)){
                         continue;
                     }
@@ -131,20 +131,18 @@ public class Environment {
         return canMove;
     }
 
-    public int distanceBetweenTwoCells(Cell cell, Cell another, int environmentSize) {
-        int numeroLinhas = environmentSize;
-        int numeroColunas = environmentSize;
-
-        int distance = Math.min(Math.abs(cell.getColumn()-another.getColumn()), numeroLinhas-1-Math.abs(cell.getColumn()-another.getColumn()))
-                        +  Math.min(Math.abs(cell.getLine()-another.getLine()), numeroColunas-1-Math.abs(cell.getLine()-another.getLine()));
-
-        //System.out.println(distance);
-
-        return distance;
+    public int distanceBetweenTwoCells(Cell cell, Cell another) {
+        return Math.abs(cell.getLine() - another.getLine()) + Math.abs(cell.getColumn() - another.getColumn());
     }
 
-    public int predatorDistancePrey(PredatorGreedy predator, int environmentSize) {
-        return distanceBetweenTwoCells(predator.getCell(), prey.getCell(), environmentSize);
+    public int distanceBetweenTwoCellsGreedy(Cell cell, Cell another) {
+        return Math.min(Math.abs(cell.getColumn()-another.getColumn()), getSize()-1-Math.abs(cell.getColumn()-another.getColumn()))
+                +  Math.min(Math.abs(cell.getLine()-another.getLine()), getSize()-1-Math.abs(cell.getLine()-another.getLine()));
+
+    }
+
+    public int predatorGreedyDistancePrey(PredatorGreedy predator) {
+        return distanceBetweenTwoCellsGreedy(predator.getCell(), prey.getCell());
     }
 
     //COMPUTES THE SUM OF THE (SMALLEST) DISTANCES OF ALL THE PREDATORS TO THE PREY.
