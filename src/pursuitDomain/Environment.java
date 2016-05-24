@@ -52,7 +52,7 @@ public class Environment {
 
                 break;
             case 1: //PredatorsGreedy
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < numPredators; i++) {
                     agents.add(new PredatorGreedy(null, Color.GREEN));
                 }
 
@@ -136,6 +136,7 @@ public class Environment {
     }
 
     public int distanceBetweenTwoCellsGreedy(Cell cell, Cell another) {
+
         return Math.min(Math.abs(cell.getColumn()-another.getColumn()), getSize()-1-Math.abs(cell.getColumn()-another.getColumn()))
                 +  Math.min(Math.abs(cell.getLine()-another.getLine()), getSize()-1-Math.abs(cell.getLine()-another.getLine()));
 

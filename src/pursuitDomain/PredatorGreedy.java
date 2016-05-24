@@ -24,10 +24,10 @@ public class PredatorGreedy extends Agent {
     @Override
     public void act(Environment environment) {
 
-        if(environment.predatorGreedyDistancePrey(this) > 1){
+        if(environment.predatorGreedyDistancePrey(this) > 0){
             execute(decide(environment), environment);
         }
-        if(environment.predatorGreedyDistancePrey(this) == 1){
+        if(environment.predatorGreedyDistancePrey(this) == 0){
             System.out.println("ACHOU");
         }
     }
