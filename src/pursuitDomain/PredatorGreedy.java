@@ -16,6 +16,7 @@ public class PredatorGreedy extends Agent {
 
     private Random random;
     private Action previousAction;
+    private Action previousAction2;
 
     public PredatorGreedy(Cell cell, Color color) {
         super(cell, color);
@@ -139,45 +140,51 @@ public class PredatorGreedy extends Agent {
             double rand = random.nextDouble();
 
             if(menorDistance == distanceWest && environment.getWestCell(this.cell).hasAgent()){
-                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33 && previousAction != Action.NORTH) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33) {
                     action = Action.NORTH;
-                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand < 0.66 && previousAction != Action.SOUTH){
+                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand <= 0.66){
                     action = Action.SOUTH;
-                }else if(!environment.getWestCell(this.cell).hasAgent() && previousAction != Action.EAST){
+                }else if(!environment.getWestCell(this.cell).hasAgent()){
                     action = Action.EAST;
                 }
             }
             if(menorDistance == distanceEast && environment.getEastCell(this.cell).hasAgent()){
-                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33 && previousAction != Action.NORTH) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33) {
                     action = Action.NORTH;
-                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand < 0.66 && previousAction != Action.SOUTH){
+                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand <= 0.66){
                     action = Action.SOUTH;
-                }else if(!environment.getWestCell(this.cell).hasAgent() && previousAction != Action.WEST){
+                }else if(!environment.getWestCell(this.cell).hasAgent()){
                     action = Action.WEST;
                 }
             }
             if(menorDistance == distanceNorth && environment.getNorthCell(this.cell).hasAgent()){
-                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33 && previousAction != Action.WEST) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33) {
                     action = Action.WEST;
-                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand < 0.66 && previousAction != Action.EAST){
+                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand <= 0.66){
                     action = Action.EAST;
-                }else if(!environment.getWestCell(this.cell).hasAgent() && previousAction != Action.SOUTH){
+                }else if(!environment.getWestCell(this.cell).hasAgent()){
                     action = Action.SOUTH;
                 }
             }
             if(menorDistance == distanceSouth && environment.getSouthCell(this.cell).hasAgent()){
-                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.5 && previousAction != Action.WEST) {
+                if (!environment.getNorthCell(this.cell).hasAgent() && rand < 0.33) {
                     action = Action.WEST;
-                } else if(!environment.getWestCell(this.cell).hasAgent() && previousAction != Action.EAST){
+                } else if(!environment.getWestCell(this.cell).hasAgent() && rand >= 0.33 && rand <= 0.66){
                     action = Action.EAST;
-                }else if(!environment.getWestCell(this.cell).hasAgent() && previousAction != Action.NORTH){
+                }else if(!environment.getWestCell(this.cell).hasAgent()){
                     action = Action.NORTH;
                 }
             }
 
+            if(action == previousAction2){
+                //if(action == Action.WEST){
+                //    action =
+                //}
+            }
         }
         while(action == null);
 
+        previousAction2 = previousAction;
         previousAction = action;
 
         return action;
