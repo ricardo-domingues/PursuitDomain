@@ -1,13 +1,14 @@
 package pursuitDomain;
 
 import java.awt.Color;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Prey extends Agent{
 
     final private double restProbability;
     private Random random;
-    private Random random2;
     
     public Prey(Cell cell, double restProbability){
         super(cell, Color.RED);
@@ -27,21 +28,66 @@ public class Prey extends Agent{
             return action;
         }
         else{
-            double random = random2.nextDouble();
+            rand = random.nextDouble();
             
             do{
-                if (random >= 0 && random <0.25 && !environment.getNorthCell(cell).hasAgent()) {
+                List<Cell> freeCells = environment.getFreeSorroundingCells(this.cell);
+
+                boolean northCellFree = false;
+                boolean southCellFree = false;
+                boolean westCellFree = false;
+                boolean eastCellFree = false;
+
+
+
+                for(Cell cell: freeCells){
+                    if(cell == environment.getNorthCell(this.cell)){
+                        northCellFree = true;
+                    }
+                    if(cell == environment.getSouthCell(this.cell)){
+                        southCellFree = true;
+                    }
+                    if(cell == environment.getWestCell(this.cell)){
+                        westCellFree = true;
+                    }
+                    if(cell == environment.getEastCell(this.cell)){
+                        eastCellFree = true;
+                    }
+                }
+
+                int numberOfCells = freeCells.size();
+
+                for(int i=0; i<numberOfCells;i++){
+
+                    if (northCellFree && rand >= 0 && rand <1/numberOfCells && !environment.getNorthCell(cell).hasAgent()) {
+                        action = Action.NORTH;
+                    }
+
+                    if (southCellFree && rand >= 1/numberOfCells && rand < 2/numberOfCells && !environment.getSouthCell(cell).hasAgent()) {
+                        action = Action.SOUTH;
+                    }
+                    if (rand >= 2/numberOfCells && rand < 3/numberOfCells && !environment.getEastCell(cell).hasAgent()) {
+                        action = Action.EAST;
+                    }
+                    if (rand >= 3/numberOfCells && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
+                        action = Action.WEST;
+                    }
+                }
+
+                /*
+                if (rand >= 0 && rand <0.25 && !environment.getNorthCell(cell).hasAgent()) {
                     action = Action.NORTH;
                 }
-                if (random >= 0.25 && random < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
+                if (rand >= 0.25 && rand < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
                     action = Action.SOUTH;
                 }
-                if (random >= 0.50 && random < 0.75 && !environment.getEastCell(cell).hasAgent()) {
+                if (rand >= 0.50 && rand < 0.75 && !environment.getEastCell(cell).hasAgent()) {
                     action = Action.EAST;
                 }
-                if (random >= 0.75 && random < 1 && !environment.getEastCell(cell).hasAgent()) {
+                if (rand >= 0.75 && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
                     action = Action.WEST;
                 }
+                */
             }while(action == null);
         }
 

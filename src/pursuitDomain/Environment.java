@@ -105,6 +105,9 @@ public class Environment {
     //WHERE THEY WHERE PLACED IN METHOD initializeAgentsPositions.
     public void simulate() {
         for (int i = 0; i < 200; i++) {
+            prey.act(this);
+            fireUpdatedEnvironment();
+
             for (Agent agent : agents) {
                 if (distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1) {
                     if(!checkMoveConditions(agent)){
