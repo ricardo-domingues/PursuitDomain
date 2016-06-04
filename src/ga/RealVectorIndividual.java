@@ -3,34 +3,39 @@ package ga;
 public abstract class RealVectorIndividual <P extends Problem, I extends RealVectorIndividual> extends Individual<P, I>{
 
     //TODO: GENOME DEFINITION;
+    protected double[] genome;
     
     public RealVectorIndividual(P problem, int size) {
         super(problem);
-        //TODO
+        genome = new double[size];
+        for (int i = 0; i < genome.length; i++) {
+            //genome[i] = (GeneticAlgorithm.random.nextDouble() < prob1s) ? ONE : ZERO;
+        }
     }
 
     public RealVectorIndividual(RealVectorIndividual<P, I> original) {
         super(original);
-        //TODO
+        this.genome = new double[original.genome.length];
+        System.arraycopy(original.genome, 0, genome, 0, genome.length);
     }
     
     @Override
     public int getNumGenes() {
-        //TODO
-        return 1;
+        return genome.length;
     }
     
     public double getGene(int index) {
-        //TODO
-        return 0;
+       return genome[index];
     }
     
     public void setGene(int index, double newValue) {
-        //TODO
+        genome[index] = newValue;
     }
 
     @Override
     public void swapGenes(RealVectorIndividual other, int index) {
-        //TODO
+        double aux = genome[index];
+        genome[index] = other.genome[index];
+        other.genome[index] = aux;
     }
 }
