@@ -120,6 +120,6 @@ public class PredatorNeuralNetwork extends Agent {
      *
      */
     private void forwardPropagation() {
-
+        
     }
 }

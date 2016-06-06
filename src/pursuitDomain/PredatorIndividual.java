@@ -15,9 +15,16 @@ public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProble
     }
 
     @Override
-    public double computeFitness() {
-        
-        return 0;
+    public double computeFitness() {    
+        Environment e = problem.getEnvironment();
+        e.setPredatorsWeights(genome);
+        fitness=0;
+        for(int i = 0; i<problem.getNumEvironmentSimulations(); i++){
+            e.initializeAgentsPositions(i);
+            fitness += e.simulate(); 
+        }
+        fitness = fitness / problem.getNumEvironmentSimulations();
+        return fitness;
     }
 
     public double[] getGenome(){

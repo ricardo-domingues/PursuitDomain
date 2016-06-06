@@ -17,6 +17,9 @@ public class Environment {
     private final int maxIterations;
     private int numPredators;
     private JComboBox jComboBox;
+    private int inputLayerSize;
+    private int hiddenLayerSize;
+    private int outputLayerSize;
 
     //MORE ATTRIBUTES?
     public Environment(
@@ -30,7 +33,6 @@ public class Environment {
 
         this.maxIterations = maxIterations;
         this.numPredators = numPredators;
-
         grid = new Cell[size][size];
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid.length; j++) {
@@ -57,8 +59,10 @@ public class Environment {
                 }
 
                 break;
-            case 3: //
-
+            case 3: // Neural network
+                    for(int i = 0;i< this.numPredators;i++){
+                        agents.add(new PredatorNeuralNetwork(null, predatorsNumInputs,predatorsNumHiddenLayers,predatorsNumOutputs));
+                    }
                 break;
             default:
                 break;
@@ -103,10 +107,11 @@ public class Environment {
 
     //MAKES A SIMULATION OF THE ENVIRONMENT. THE AGENTS START IN THE POSITIONS
     //WHERE THEY WHERE PLACED IN METHOD initializeAgentsPositions.
-    public void simulate() {
-        for (int i = 0; i < 200; i++) {
-            //prey.act(this);
-            //fireUpdatedEnvironment();
+    public int simulate() {
+        int numIterations = 0;
+        for (int i = 0; i < maxIterations; i++) {
+            prey.act(this);
+            fireUpdatedEnvironment();
 
             for (Agent agent : agents) {
                 if (distanceBetweenTwoCells(agent.getCell(), prey.getCell()) != 1) {
@@ -117,7 +122,12 @@ public class Environment {
                     fireUpdatedEnvironment();
                 }
             }
+            if(computePredatorsPreyDistanceSum() == 4){
+                return numIterations;
+            }
+            numIterations++;
         }
+        return computePredatorsPreyDistanceSum() * 5;
     }
     
     private boolean checkMoveConditions(Agent agent){
@@ -235,5 +245,10 @@ public class Environment {
 
     public void getMinimumDistanceToPrey(PredatorGreedy predator, Prey prey) {
 
+    }
+    
+    //THIS METHOD SHOULD BE CALLED IN METHOD COMPUTE FITNESS BEFORE ALL THE SIMULATIONS
+    void setPredatorsWeights(double[] genome) {
+       
     }
 }
