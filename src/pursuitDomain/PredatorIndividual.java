@@ -16,13 +16,12 @@ public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProble
 
     @Override
     public double computeFitness() {
-        //TODO
+        
         return 0;
     }
 
     public double[] getGenome(){
-        //TODO
-        return null;
+        return genome;
     }
 
     @Override
@@ -42,8 +41,7 @@ public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProble
      */
     @Override
     public int compareTo(PredatorIndividual i) {
-        //TODO
-        return 0;
+         return (this.fitness == i.getFitness())? 0 : (this.fitness > i.getFitness())? 1 : -1;
     }
 
     @Override

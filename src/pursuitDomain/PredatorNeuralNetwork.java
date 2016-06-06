@@ -1,12 +1,14 @@
 package pursuitDomain;
 
 import java.awt.Color;
+import java.util.Random;
 
 public class PredatorNeuralNetwork extends Agent {
-   
+
     final private int inputLayerSize;
     final private int hiddenLayerSize;
     final private int outputLayerSize;
+    private Random random;
 
     /**
      * Network inputs array.
@@ -45,6 +47,7 @@ public class PredatorNeuralNetwork extends Agent {
         hiddenLayerOutput = new double[hiddenLayerSize + 1];
         hiddenLayerOutput[hiddenLayerSize] = -1; // the bias entry for the output neurons
         output = new int[outputLayerSize];
+        random = new Random();
     }
 
     @Override
@@ -55,11 +58,11 @@ public class PredatorNeuralNetwork extends Agent {
 
     //Predators' coordinates relative to the Prey
     private void buildPerception(Environment environment) {
-        
+
     }
 
     private Action decide() {
-        forwardPropagation();   
+        forwardPropagation();
         //Here we are assuming that the output has two elements, only
         if (output[0] == 0 && output[1] == 0) {
             return Action.NORTH;
@@ -68,7 +71,7 @@ public class PredatorNeuralNetwork extends Agent {
         } else if (output[0] == 1 && output[1] == 0) {
             return Action.WEST;
         }
-        
+
         return Action.NORTH;
     }
 
@@ -91,19 +94,32 @@ public class PredatorNeuralNetwork extends Agent {
 
     /**
      * Initializes the network's weights
-     * 
+     *
      * @param weights vector of weights comming from the individual.
      */
     public void setWeights(double[] weights) {
-        //TODO
+        int m = 0;
+        for (int i = 0; i < inputLayerSize; i++) {
+            for (int j = 0; j < hiddenLayerSize; j++) {
+                w1[i][j] = weights[m];
+                m++;
+            }
+        }
+
+        for (int i = 0; i < hiddenLayerSize; i++) {
+            for (int j = 0; j < outputLayerSize; j++) {
+                w2[i][j] = weights[m];
+                m++;
+            }
+        }
     }
-    
+
     /**
      * Computes the output of the network for the inputs saved in the class
      * vector "inputs".
      *
      */
     private void forwardPropagation() {
-        //TODO
-    }    
+
+    }
 }
