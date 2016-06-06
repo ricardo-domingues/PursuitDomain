@@ -39,7 +39,6 @@ public class Prey extends Agent{
                 boolean eastCellFree = false;
 
 
-
                 for(Cell cell: freeCells){
                     if(cell == environment.getNorthCell(this.cell)){
                         northCellFree = true;
@@ -66,28 +65,14 @@ public class Prey extends Agent{
                     if (southCellFree && rand >= 1/numberOfCells && rand < 2/numberOfCells && !environment.getSouthCell(cell).hasAgent()) {
                         action = Action.SOUTH;
                     }
-                    if (rand >= 2/numberOfCells && rand < 3/numberOfCells && !environment.getEastCell(cell).hasAgent()) {
+                    if (westCellFree && rand >= 2/numberOfCells && rand < 3/numberOfCells && !environment.getEastCell(cell).hasAgent()) {
                         action = Action.EAST;
                     }
-                    if (rand >= 3/numberOfCells && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
+                    if (eastCellFree && rand >= 3/numberOfCells && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
                         action = Action.WEST;
                     }
                 }
 
-                /*
-                if (rand >= 0 && rand <0.25 && !environment.getNorthCell(cell).hasAgent()) {
-                    action = Action.NORTH;
-                }
-                if (rand >= 0.25 && rand < 0.50 && !environment.getSouthCell(cell).hasAgent()) {
-                    action = Action.SOUTH;
-                }
-                if (rand >= 0.50 && rand < 0.75 && !environment.getEastCell(cell).hasAgent()) {
-                    action = Action.EAST;
-                }
-                if (rand >= 0.75 && rand < 1 && !environment.getEastCell(cell).hasAgent()) {
-                    action = Action.WEST;
-                }
-                */
             }while(action == null);
         }
 

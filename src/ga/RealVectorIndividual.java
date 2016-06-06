@@ -1,5 +1,7 @@
 package ga;
 
+import java.util.Random;
+
 public abstract class RealVectorIndividual <P extends Problem, I extends RealVectorIndividual> extends Individual<P, I>{
 
     //TODO: GENOME DEFINITION;
@@ -9,7 +11,7 @@ public abstract class RealVectorIndividual <P extends Problem, I extends RealVec
         super(problem);
         genome = new double[size];
         for (int i = 0; i < genome.length; i++) {
-            //genome[i] = (GeneticAlgorithm.random.nextDouble() < prob1s) ? ONE : ZERO;
+            genome[i] = GeneticAlgorithm.random.nextDouble() * 2 - 1;
         }
     }
 

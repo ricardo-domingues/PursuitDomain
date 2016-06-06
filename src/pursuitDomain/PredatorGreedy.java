@@ -16,7 +16,6 @@ public class PredatorGreedy extends Agent {
 
     private Random random;
     private Action previousAction;
-    private Action previousAction2;
 
     public PredatorGreedy(Cell cell, Color color) {
         super(cell, color);
@@ -184,7 +183,6 @@ public class PredatorGreedy extends Agent {
         }
         while(action == null);
 
-        previousAction2 = previousAction;
         previousAction = action;
 
         return action;
