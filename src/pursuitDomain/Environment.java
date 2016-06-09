@@ -61,6 +61,7 @@ public class Environment {
                 break;
             case 3: // Neural network
                     for(int i = 0;i< this.numPredators;i++){
+                        System.out.println("ENTROU!");
                         agents.add(new PredatorNeuralNetwork(null, predatorsNumInputs,predatorsNumHiddenLayers,predatorsNumOutputs));
                     }
                 break;
@@ -71,14 +72,14 @@ public class Environment {
         this.random = new Random();
     }
 
-    /*
+    
     //THIS METHOD SHOULD BE CALLED IN THE METHOD computeFitness BEFORE A
     //ALL THE SIMULATIONS START.
     public void setPredatorsNeuralNetworkWeights(double[] weights) {
-        for (PredatorNeuralNetwork predator : (PredatorNeuralNetwork) agents) {
-            predatorNeuralNetwork.setWeights(weights);
+        for (Agent agent :  agents) {
+            agent.setWeights(weights);
         }
-    }*/
+    }
     //THIS METHOD SHOULD BE CALLED RIGHT BEFORE EACH CALL TO METHOD simulate (SEE BELOW).
     //THAT IS, IT MUST BE CALLED RIGHT BEFORE EACH SIMULATION (.
     public void initializeAgentsPositions(int seed) {

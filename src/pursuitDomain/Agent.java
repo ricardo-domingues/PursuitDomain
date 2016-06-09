@@ -14,6 +14,8 @@ public abstract class Agent {
     }
 
     public abstract void act(Environment environment);
+    
+    public abstract void setWeights(double[] weights);
 
     public Cell getCell() {
         return cell;

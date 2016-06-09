@@ -58,7 +58,7 @@ public class PredatorNeuralNetwork extends Agent {
 
     //Predators' coordinates relative to the Prey
     private void buildPerception(Environment environment) {
-
+        
     }
 
     private Action decide() {
@@ -97,7 +97,9 @@ public class PredatorNeuralNetwork extends Agent {
      *
      * @param weights vector of weights comming from the individual.
      */
+    @Override
     public void setWeights(double[] weights) {
+        System.out.println("ENTROU!");
         int m = 0;
         for (int i = 0; i < inputLayerSize; i++) {
             for (int j = 0; j < hiddenLayerSize; j++) {
@@ -120,6 +122,13 @@ public class PredatorNeuralNetwork extends Agent {
      *
      */
     private void forwardPropagation() {
-        
+        double num;
+        for(int i=0;i<hiddenLayerSize;i++){
+            num = 0;
+            for(int j=0;j<inputLayerSize;j++){
+                //num +=instance[j]*w1[j][i];
+            }
+            hiddenLayerOutput[i] = 1/1+(Math.pow(Math.E, -num));
+        }
     }
 }

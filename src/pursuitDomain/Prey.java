@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Prey extends Agent{
 
@@ -98,5 +99,10 @@ public class Prey extends Agent{
                 setCell(nextCell);
             }
         }    
+    }
+
+    @Override
+    public void setWeights(double[] weights) {
+       throw new NotImplementedException();
     }
 }

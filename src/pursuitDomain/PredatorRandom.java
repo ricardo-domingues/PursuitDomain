@@ -7,6 +7,7 @@ package pursuitDomain;
 
 import java.awt.*;
 import java.util.Random;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -65,6 +66,11 @@ public class PredatorRandom extends Agent {
         if (!nextCell.hasAgent()) {
             setCell(nextCell);
         }
+    }
+
+    @Override
+    public void setWeights(double[] weights) {
+        throw new NotImplementedException();
     }
 
 }

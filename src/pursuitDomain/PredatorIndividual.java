@@ -4,14 +4,12 @@ import ga.RealVectorIndividual;
 
 public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProblem, PredatorIndividual> {
 
-    public PredatorIndividual(PursuitDomainProblem problem, int size /*COMPLETE?*/) {
+    public PredatorIndividual(PursuitDomainProblem problem, int size) {
         super(problem, size);
-        //COMPLETE?
     }
 
     public PredatorIndividual(PredatorIndividual original) {
         super(original);
-        //COMPLETE
     }
 
     @Override
@@ -21,7 +19,7 @@ public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProble
         fitness=0;
         for(int i = 0; i<problem.getNumEvironmentSimulations(); i++){
             e.initializeAgentsPositions(i);
-            fitness += e.simulate(); 
+            fitness += e.simulate();
         }
         fitness = fitness / problem.getNumEvironmentSimulations();
         return fitness;
@@ -36,7 +34,6 @@ public class PredatorIndividual extends RealVectorIndividual<PursuitDomainProble
         StringBuilder sb = new StringBuilder();
         sb.append("\nfitness: ");
         sb.append(fitness);
-        //COMPLETE
         return sb.toString();
     }
 
